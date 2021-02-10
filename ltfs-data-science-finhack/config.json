@@ -1,0 +1,20 @@
+{
+    "name": "ltfinance",
+    "sourcecode": "src",
+    "input": "input",
+    "models_folder": "models",
+    "models_preds": "models_preds",
+    "kfold": 3,
+    "idx": "ID",
+    "target_col": "Top-up Month",
+    "drop_cols": [
+        "ID",
+        "Top-up Month"
+    ],
+    "seed": 42,
+    "kfold_type": "stratified",
+    "TRAIN_DATA": "train_Data.csv",
+    "TEST_DATA": "test_Data.csv",
+    "TRAIN_BR_DATA": "train_bureau.csv",
+    "TEST_BR_DATA": "test_bureau.csv"
+}
