@@ -1,0 +1,25 @@
+{
+    "name": "ltfinance",
+    "model_type": "classification",
+    "sourcecode": "src",
+    "input": "input",
+    "models_folder": "models",
+    "models_preds": "models_preds",
+    "kfold": 5,
+    "num_class": 2,
+    "idx": "ID",
+    "target_col": "Response",
+    "drop_cols": [
+        "ID",
+        "Response"
+    ],
+    "drop_cols_kfold": [
+        "ID",
+        "kfold",
+        "Response"
+    ],
+    "seed": 42,
+    "kfold_type": "stratified",
+    "TRAIN_DATA": "train_Df64byy.csv",
+    "TEST_DATA": "test_YCcRUnU.csv"
+}

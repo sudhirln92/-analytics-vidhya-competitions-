@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb 06 09:13:14 2021
+Created on Sun Feb 28 09:13:14 2021
 
 
 @author: sudhir
@@ -19,14 +19,11 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from .utils.logger import logging_time
-from .skmetrics import classifier_eval, evalerror
+from .skmetrics import classifier_eval, eval_score
 from . import dispatcher
 
 from .utils.file_handler import read_config
 
-config = read_config("config.json")
-seed = config["seed"]
-kfold = config["kfold"]
 
 TRAINING_DATA = os.environ.get("TRAINING_DATA")
 TEST_DATA = os.environ.get("TEST_DATA")
@@ -58,7 +55,7 @@ class TrainModel:
         self.Id = Id
         self.kfold = kfold
         self.drop_cols = drop_cols
-        self.kflod_col = "kfold"
+        self.kfold_col = "kfold"
         self.target_col = target_col
         self.MODEL = MODEL
         self.TRAINING_DATA = TRAINING_DATA
@@ -90,7 +87,7 @@ class TrainModel:
             for i, k in enumerate(m_keys):
                 pred = pd.read_csv(f"model_preds/{k}_pred.csv")
                 print(i, k)
-                columns = [self.Id, self.kflod_col]
+                columns = [self.Id, self.kfold_col]
                 if i == 0:
                     preds = pred
                 else:
@@ -99,7 +96,7 @@ class TrainModel:
             train = pd.read_csv(self.TRAINING_DATA)
             drop_cols = []
             for w in self.drop_cols:
-                if w not in [self.Id, self.kflod_col]:
+                if w not in [self.Id, self.kfold_col]:
                     drop_cols.append(w)
             train = train.drop(drop_cols, axis=1)
             train = pd.merge(train, preds, on=columns, how="left")
@@ -111,8 +108,8 @@ class TrainModel:
     def get_kfold_ids(self, train):
         # kflod
 
-        train_idx = train[train[self.kflod_col] != self.fold].index
-        valid_idx = train[train[self.kflod_col] == self.fold].index
+        train_idx = train[train[self.kfold_col] != self.fold].index
+        valid_idx = train[train[self.kfold_col] == self.fold].index
 
         return train_idx, valid_idx
 
@@ -131,6 +128,7 @@ class TrainModel:
 
     @logging_time
     def train_model(self, X_train, X_valid, y_train, y_valid, save_model=True):
+
         # train machine learning model
         model = self.get_model()
         if self.MODEL == "lgbm":
@@ -138,19 +136,10 @@ class TrainModel:
                 X_train,
                 y_train,
                 eval_set=[(X_valid, y_valid)],
-                eval_metric=evalerror,
-                verbose=50,
+                verbose=100,
                 early_stopping_rounds=20,
+                eval_metric="auc",
             )
-        elif self.MODEL == "xgbm":
-            model.fit(
-                X_train,
-                y_train,
-                eval_set=[(X_valid, y_valid)],
-                eval_metric="multi_error",
-                verbose=50,
-            )
-
         else:
             model.fit(X_train, y_train)
 
@@ -162,11 +151,11 @@ class TrainModel:
     def save_valid_predict(self, model, train, X_valid, valid_idx):
         # predict
         y_prob = model.predict_proba(X_valid)
-        cols = [self.target_col + "_pred" + str(w) for w in range(7)]
+        cols = [self.target_col + "_pred" + str(w) for w in range(2)]
         y_prob = pd.DataFrame(y_prob, columns=cols)
 
         # save_validation prediction
-        columns = [self.Id, self.kflod_col, self.target_col]
+        columns = [self.Id, self.kfold_col, self.target_col]
         df_valid = train.loc[valid_idx, columns].reset_index(drop=True)
         df_valid = pd.concat([df_valid, y_prob], axis=1)
 
@@ -186,6 +175,7 @@ class TrainModel:
         train = self.read_train_data()
 
         # train model
+        avg_score = []
         for self.fold in range(self.kfold):
 
             # get_kfold_ids
@@ -197,20 +187,25 @@ class TrainModel:
             )
             model = self.train_model(X_train, X_valid, y_train, y_valid)
 
-            classifier_eval(model, X_train, X_valid, y_train, y_valid)
-
+            score = classifier_eval(model, X_train, X_valid, y_train, y_valid)
+            avg_score.append(score)
             # save valid_data
+            print(self.SAVE_VALID)
             if self.SAVE_VALID:
                 self.save_valid_predict(model, train, X_valid, valid_idx)
+
+        print("Average roc-auc score:\t", np.mean(avg_score))
 
 
 if __name__ == "__main__":
 
     # parameters
+    config = read_config("config.json")
+
     param = {
-        "Id": "ID",
-        "kfold": kfold,
-        "drop_cols": ["ID", "kfold", "Top-up Month"],
+        "Id": config["idx"],
+        "kfold": config["kfold"],
+        "drop_cols": config["drop_cols_kfold"],
         "target_col": TARGET_COL,
         "MODEL": MODEL,
         "TRAINING_DATA": TRAINING_DATA,

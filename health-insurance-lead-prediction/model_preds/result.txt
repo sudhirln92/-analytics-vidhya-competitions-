@@ -1,0 +1,101 @@
+    
+    'LGBMClassifier(colsample_bytree=0.4239880979970021, learning_rate=0.01,
+               max_depth=10, min_split_gain=0.3104957653393776,
+               n_estimators=1000, num_leaves=34, objective='binary',
+               random_state=42, reg_alpha=0.5698676660355981,
+               reg_lambda=1.3119535973464989, subsample=0.8413327156973907)'
+    Train dataset Absolute Accuracy	: 78.0% 
+    Test dataset Absolute Accuracy	: 77.0%
+    Train dataset ROC-AUC	: 0.7824692575353398%
+    Test dataset ROC-AUC	: 0.7568195979960687%
+    Log Loss	: 0.47859949995779305
+    
+    Classification Report :
+               precision    recall  f1-score   support
+
+           0       0.77      0.99      0.87      7735
+           1       0.71      0.08      0.15      2442
+
+    accuracy                           0.77     10177
+   macro avg       0.74      0.54      0.51     10177
+weighted avg       0.76      0.77      0.69     10177
+
+    Confusion Matrix :
+ [[7654   81]
+ [2244  198]]
+    
+    'LGBMClassifier(colsample_bytree=0.4239880979970021, learning_rate=0.01,
+               max_depth=10, min_split_gain=0.3104957653393776,
+               n_estimators=1000, num_leaves=34, objective='binary',
+               random_state=42, reg_alpha=0.5698676660355981,
+               reg_lambda=1.3119535973464989, subsample=0.8413327156973907)'
+    Train dataset Absolute Accuracy	: 78.0% 
+    Test dataset Absolute Accuracy	: 77.0%
+    Train dataset ROC-AUC	: 0.7838811390713581%
+    Test dataset ROC-AUC	: 0.7609939232996321%
+    Log Loss	: 0.4742467558983247
+    
+    Classification Report :
+               precision    recall  f1-score   support
+
+           0       0.77      0.98      0.87      7735
+           1       0.64      0.09      0.16      2441
+
+    accuracy                           0.77     10176
+   macro avg       0.71      0.54      0.52     10176
+weighted avg       0.74      0.77      0.70     10176
+
+    Confusion Matrix :
+ [[7605  130]
+ [2212  229]]
+    
+    'LGBMClassifier(colsample_bytree=0.4239880979970021, learning_rate=0.01,
+               max_depth=10, min_split_gain=0.3104957653393776,
+               n_estimators=1000, num_leaves=34, objective='binary',
+               random_state=42, reg_alpha=0.5698676660355981,
+               reg_lambda=1.3119535973464989, subsample=0.8413327156973907)'
+    Train dataset Absolute Accuracy	: 77.0% 
+    Test dataset Absolute Accuracy	: 77.0%
+    Train dataset ROC-AUC	: 0.7797638928664966%
+    Test dataset ROC-AUC	: 0.7647064071617988%
+    Log Loss	: 0.47452403118648606
+    
+    Classification Report :
+               precision    recall  f1-score   support
+
+           0       0.77      0.99      0.87      7734
+           1       0.73      0.08      0.15      2442
+
+    accuracy                           0.77     10176
+   macro avg       0.75      0.54      0.51     10176
+weighted avg       0.76      0.77      0.70     10176
+
+    Confusion Matrix :
+ [[7662   72]
+ [2243  199]]
+    
+    'LGBMClassifier(colsample_bytree=0.4239880979970021, learning_rate=0.01,
+               max_depth=10, min_split_gain=0.3104957653393776,
+               n_estimators=1000, num_leaves=34, objective='binary',
+               random_state=42, reg_alpha=0.5698676660355981,
+               reg_lambda=1.3119535973464989, subsample=0.8413327156973907)'
+    Train dataset Absolute Accuracy	: 79.0% 
+    Test dataset Absolute Accuracy	: 78.0%
+    Train dataset ROC-AUC	: 0.7977390407788191%
+    Test dataset ROC-AUC	: 0.7549028328702494%
+    Log Loss	: 0.46760751665890304
+    
+    Classification Report :
+               precision    recall  f1-score   support
+
+           0       0.79      0.97      0.87      7734
+           1       0.63      0.17      0.26      2442
+
+    accuracy                           0.78     10176
+   macro avg       0.71      0.57      0.57     10176
+weighted avg       0.75      0.78      0.72     10176
+
+    Confusion Matrix :
+ [[7500  234]
+ [2039  403]]
+    
